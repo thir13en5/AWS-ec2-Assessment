@@ -1,0 +1,106 @@
+{
+    "Reservations": [
+        {
+            "Instances": [
+                {
+                    "Monitoring": {
+                        "State": "disabled"
+                    }, 
+                    "PublicDnsName": "ec2-52-23-232-192.compute-1.amazonaws.com", 
+                    "State": {
+                        "Code": 0, 
+                        "Name": "pending"
+                    }, 
+                    "EbsOptimized": false, 
+                    "LaunchTime": "2018-07-20T10:18:44.000Z", 
+                    "PublicIpAddress": "52.23.232.192", 
+                    "PrivateIpAddress": "172.31.83.19", 
+                    "ProductCodes": [], 
+                    "VpcId": "vpc-44ff7d3d", 
+                    "StateTransitionReason": "", 
+                    "InstanceId": "i-067100bd5c4ca4622", 
+                    "EnaSupport": true, 
+                    "ImageId": "ami-b70554c8", 
+                    "PrivateDnsName": "ip-172-31-83-19.ec2.internal", 
+                    "KeyName": "MyKeyPairv1", 
+                    "SecurityGroups": [
+                        {
+                            "GroupName": "MyWebDMZ1", 
+                            "GroupId": "sg-6fa97b25"
+                        }
+                    ], 
+                    "ClientToken": "", 
+                    "SubnetId": "subnet-de0385f2", 
+                    "InstanceType": "t2.micro", 
+                    "NetworkInterfaces": [
+                        {
+                            "Status": "in-use", 
+                            "MacAddress": "12:d6:d4:15:e1:32", 
+                            "SourceDestCheck": true, 
+                            "VpcId": "vpc-44ff7d3d", 
+                            "Description": "", 
+                            "NetworkInterfaceId": "eni-00a54454", 
+                            "PrivateIpAddresses": [
+                                {
+                                    "PrivateDnsName": "ip-172-31-83-19.ec2.internal", 
+                                    "PrivateIpAddress": "172.31.83.19", 
+                                    "Primary": true, 
+                                    "Association": {
+                                        "PublicIp": "52.23.232.192", 
+                                        "PublicDnsName": "ec2-52-23-232-192.compute-1.amazonaws.com", 
+                                        "IpOwnerId": "amazon"
+                                    }
+                                }
+                            ], 
+                            "PrivateDnsName": "ip-172-31-83-19.ec2.internal", 
+                            "Attachment": {
+                                "Status": "attaching", 
+                                "DeviceIndex": 0, 
+                                "DeleteOnTermination": true, 
+                                "AttachmentId": "eni-attach-75797acf", 
+                                "AttachTime": "2018-07-20T10:18:44.000Z"
+                            }, 
+                            "Groups": [
+                                {
+                                    "GroupName": "MyWebDMZ1", 
+                                    "GroupId": "sg-6fa97b25"
+                                }
+                            ], 
+                            "Ipv6Addresses": [], 
+                            "OwnerId": "488599217855", 
+                            "PrivateIpAddress": "172.31.83.19", 
+                            "SubnetId": "subnet-de0385f2", 
+                            "Association": {
+                                "PublicIp": "52.23.232.192", 
+                                "PublicDnsName": "ec2-52-23-232-192.compute-1.amazonaws.com", 
+                                "IpOwnerId": "amazon"
+                            }
+                        }
+                    ], 
+                    "SourceDestCheck": true, 
+                    "Placement": {
+                        "Tenancy": "default", 
+                        "GroupName": "", 
+                        "AvailabilityZone": "us-east-1a"
+                    }, 
+                    "Hypervisor": "xen", 
+                    "BlockDeviceMappings": [], 
+                    "Architecture": "x86_64", 
+                    "RootDeviceType": "ebs", 
+                    "RootDeviceName": "/dev/xvda", 
+                    "VirtualizationType": "hvm", 
+                    "Tags": [
+                        {
+                            "Value": "Chaitanyav1", 
+                            "Key": "Name"
+                        }
+                    ], 
+                    "AmiLaunchIndex": 0
+                }
+            ], 
+            "ReservationId": "r-0f5c6f04656556169", 
+            "Groups": [], 
+            "OwnerId": "488599217855"
+        }
+    ]
+}

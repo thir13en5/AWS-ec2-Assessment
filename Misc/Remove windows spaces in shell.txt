@@ -1,0 +1,3 @@
+Remove the spurious CR characters. You can do it with the following command:
+
+sed -i -e 's/\r$//' file_name.sh

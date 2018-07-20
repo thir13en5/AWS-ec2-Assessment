@@ -1,0 +1,241 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "CloudFormation template for creating an ec2 instance",
+    "Parameters": {
+        "MyKeyPairv1": {
+            "Description": "Key Pair name v1",
+            "Type": "AWS::EC2::KeyPair::KeyName",
+            "Default": "my_keypair_name"
+        },
+        "MyKeyPairv2": {
+            "Description": "Key Pair name v2",
+            "Type": "AWS::EC2::KeyPair::KeyName",
+            "Default": "my_keypair_name"
+        },
+        "InstanceType": {
+            "Description": "Select one of the possible instance types",
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.micro",
+                "t2.small",
+                "t2.medium"
+            ]
+        }
+    },
+    "Resources": {
+        "Chaitanyav1": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": "ami-b70554c8",
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "KeyName": {
+                    "Ref": "MyKeyPairv1"
+                },
+                "SecurityGroupIds": ["sg-6fa97b25"],
+                "Tags" : [ {"Key" : "Name", "Value" : "Chaitanyav1"}],
+                "UserData"       : { 
+                    "Fn::Base64" : { 
+                        "Fn::Join" : [
+                            "", 
+                            [   "#!/bin/bash\n",
+                                "sudo su\n",
+                                "yum update -y\n",
+                                "yum install httpd -y\n",
+                                "service httpd start\n",
+                                "chkconfig httpd on\n",
+                                "cd /var/www/html\n",
+                                "touch index.html\n",
+                                "echo \"<html><title>HTTP APPLICATION PART1</title><body><h1>This is for request 1</h1></body></html>\" > index.html"
+                            ]
+                        ]
+                    }
+                },
+                "SubnetId": "subnet-de0385f2"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "7447546c-0c5d-4c7a-be68-4635f6393623"
+                }
+            }
+        },
+        "Chaitanyav2": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": "ami-b70554c8",
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "KeyName": {
+                    "Ref": "MyKeyPairv2"
+                },
+                "SecurityGroupIds": ["sg-6fa97b25"],
+                "Tags" : [ {"Key" : "Name", "Value" : "Chaitanyav2"}],
+                "UserData"       : { 
+                    "Fn::Base64" : { 
+                        "Fn::Join" : [
+                            "", 
+                            [   "#!/bin/bash -xe\n",
+                                "sudo su\n",
+                                "yum update -y\n",
+                                "yum install httpd -y\n",
+                                "service httpd start\n",
+                                "chkconfig httpd on\n",
+                                "cd /var/www/html\n",
+                                "touch index.html\n",
+                                "echo \"<html><title>HTTP APPLICATION PART1</title><body><h1>This is for request 2</h1></body></html>\" > index.html\n"
+                            ]
+                        ]
+                    }
+                },
+                "SubnetId": "subnet-124b752e"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "d9882e15-b492-4aa0-9b67-fc1991f3e81d"
+                }
+            }
+        },
+        "MyLoadBalancer": {
+            "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+            "Properties": {
+                "AvailabilityZones" : [ 
+                    "us-east-1a",
+                    "us-east-1b",
+                    "us-east-1c",
+                    "us-east-1d",
+                    "us-east-1e",
+                    "us-east-1f"
+                ],
+                "Instances": [
+                    {
+                        "Ref": "Chaitanyav1"
+                    },
+                    {
+                        "Ref": "Chaitanyav2"
+                    }
+                ],
+                "Listeners": [
+                    {
+                        "LoadBalancerPort": "80",
+                        "InstancePort": "80",
+                        "Protocol": "HTTP"
+                    }
+                ],
+                "CrossZone" : true,
+                "HealthCheck": {
+                    "Target": "HTTP:80/index.html",
+                    "HealthyThreshold": "2",
+                    "UnhealthyThreshold": "10",
+                    "Interval": "180",
+                    "Timeout": "10"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "e9d05ea8-bf07-4382-82d3-f3e915cc24b9"
+                }
+            }
+        }
+    },
+    "Outputs" : {
+        "WebsiteURL" : {
+            "Description" : "URL for newly created ELB attached EC2 instances stack",
+            "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "MyLoadBalancer", "DNSName" ]}]] }
+        }
+    },
+    "Metadata": {
+        "AWS::CloudFormation::Designer": {
+            "f16acd65-e055-4a56-97c5-952587f23a92": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 60,
+                    "y": 210
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "d9882e15-b492-4aa0-9b67-fc1991f3e81d": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 330,
+                    "y": 210
+                },
+                "z": 1,
+                "embeds": [],
+                "isassociatedwith": [
+                    "f16acd65-e055-4a56-97c5-952587f23a92"
+                ],
+                "iscontainedinside": [
+                    "0770fa66-5ec0-411a-96b1-3afcfb3708fb"
+                ]
+            },
+            "7447546c-0c5d-4c7a-be68-4635f6393623": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 330,
+                    "y": 120
+                },
+                "z": 1,
+                "embeds": [],
+                "isassociatedwith": [
+                    "f16acd65-e055-4a56-97c5-952587f23a92"
+                ],
+                "iscontainedinside": [
+                    "7f2c55c7-04ca-4830-b11b-55b869c2ef8d"
+                ]
+            },
+            "e9d05ea8-bf07-4382-82d3-f3e915cc24b9": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 450,
+                    "y": 180
+                },
+                "z": 1,
+                "embeds": [],
+                "isassociatedwith": [
+                    "7447546c-0c5d-4c7a-be68-4635f6393623",
+                    "d9882e15-b492-4aa0-9b67-fc1991f3e81d"
+                ]
+            },
+            "0770fa66-5ec0-411a-96b1-3afcfb3708fb": {
+                "size": {
+                    "width": 150,
+                    "height": 150
+                },
+                "position": {
+                    "x": 60,
+                    "y": 300
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "7f2c55c7-04ca-4830-b11b-55b869c2ef8d": {
+                "size": {
+                    "width": 150,
+                    "height": 150
+                },
+                "position": {
+                    "x": 540,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            }
+        }
+    }
+}

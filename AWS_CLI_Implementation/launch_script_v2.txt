@@ -1,0 +1,10 @@
+#!/bin/bash
+sudo su
+yum update -y
+yum install httpd -y
+service httpd start
+chkconfig httpd on
+cd /var/www/html
+chmod 644 index.html
+echo "<html><title>HTTP APPLICATION PART2</title><body><h1>This is for request 2</h1><script>alert("HOLA2");</script></body></html>" > index.html
+

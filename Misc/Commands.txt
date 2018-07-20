@@ -1,0 +1,14 @@
+aws ec2 create-key-pair --key-name AWS-Keypair --query "KeyMaterial" --output text > "C:\AWSHOME\AWS_Keypair.pem"
+
+VERSION 1 COMMAND
+aws ec2 run-instances --image-id ami-b70554c8 --count 1 --instance-type t2.micro --key-name MyKeyPairv1 --security-group-ids sg-6fa97b25 --subnet-id subnet-de0385f2 --tag-specifications 'ResourceType=instance, Tags=[{Key=Name, Value=Chaitanyav1}]' --user-data file://launch_script_v1.txt		
+
+
+VERSION 2 COMMAND
+aws ec2 run-instances --image-id ami-b70554c8 --count 1 --instance-type t2.micro --key-name MyKeyPairv2 --security-group-ids sg-6fa97b25 --subnet-id subnet-124b752e --tag-specifications 'ResourceType=instance, Tags=[{Key=Name, Value=Chaitanyav2}]' --user-data file://launch_script_v2.txt
+
+INSTANCE Ids
+id1=aws ec2 describe-instances --filters "Name=key-name,Values=MyKeyPairv1" --query 'Reservations[*].Instances[*].InstanceId' --output text
+id2=aws ec2 describe-instances --filters "Name=key-name,Values=MyKeyPairv2" --query 'Reservations[*].Instances[*].InstanceId' --output text
+
+CAN STORE INSTANCE ID AT THE TIME OF CREATION ITSELF!!!!!!!!!!!!!!!!!!!!!!
